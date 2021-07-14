@@ -2,7 +2,7 @@
 
 namespace OrderItemsReserver
 {
-    internal class OrderDto
+    internal class OrderItemDto
     {
         [Required]
         public string ItemId { get; set; }

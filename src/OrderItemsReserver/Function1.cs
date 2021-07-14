@@ -23,10 +23,10 @@ namespace OrderItemsReserver
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            OrderDto data;
+            OrderListDto data;
             try
             {
-                data = JsonConvert.DeserializeObject<OrderDto>(requestBody);
+                data = JsonConvert.DeserializeObject<OrderListDto>(requestBody);
             }
             catch
             {
@@ -35,12 +35,12 @@ namespace OrderItemsReserver
             var results = new List<ValidationResult>();
             if (!Validator.TryValidateObject(data, new ValidationContext(data), results, true))
             {
-                return new BadRequestObjectResult($"Model is invalid: {string.Join(", ", results.Select(s => s.ErrorMessage).ToArray())}");
+                return new BadRequestObjectResult($"Model is invalid: {string.Join(", ", results.Select(s => s.ErrorMessage))}");
             }
 
             await jsonStorage.WriteAsync(requestBody);
 
-            var responseMessage = $"Order for Id {data.ItemId} with Count {data.Count} created successfully";
+            var responseMessage = $"Order \"{string.Join("; ", data.Items.Select(d => $"Product id: {d.ItemId}, count: {d.Count}"))}\" created successfully";
             return new OkObjectResult(responseMessage);
         }
     }
