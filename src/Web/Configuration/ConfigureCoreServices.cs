@@ -20,6 +20,9 @@ namespace Microsoft.eShopWeb.Web.Configuration
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.Configure<FunctionOrderReserverConfiguration>(configuration.GetSection(nameof(FunctionOrderReserverConfiguration)));
+            services.AddSingleton<IOrderReserver, FunctionOrderReserver>();
+
             return services;
         }
     }
