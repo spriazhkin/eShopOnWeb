@@ -3,6 +3,7 @@ using Microsoft.eShopWeb.ApplicationCore.Services;
 using Microsoft.eShopWeb.Infrastructure.Data;
 using Microsoft.eShopWeb.Infrastructure.Logging;
 using Microsoft.eShopWeb.Infrastructure.Services;
+using Microsoft.eShopWeb.Infrastructure.Services.FunctionOrderReserverClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,7 +22,7 @@ namespace Microsoft.eShopWeb.Web.Configuration
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.Configure<FunctionOrderReserverConfiguration>(configuration.GetSection(nameof(FunctionOrderReserverConfiguration)));
-            services.AddSingleton<IOrderReserver, FunctionOrderReserver>();
+            services.AddSingleton<IOrderReserver, FunctionOrderReserverClient>();
 
             return services;
         }
