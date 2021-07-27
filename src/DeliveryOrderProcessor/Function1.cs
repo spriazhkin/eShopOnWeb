@@ -17,8 +17,9 @@ namespace DeliveryOrderProcessor
         public static IActionResult Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
              [CosmosDB(
-                databaseName: "ToDoItems",
-                collectionName: "Items",
+                databaseName: "EShop",
+                collectionName: "Orders",
+                CreateIfNotExists = true,
                 ConnectionStringSetting = "CosmosDBConnection")]out dynamic document,
             ILogger log)
         {
@@ -43,7 +44,7 @@ namespace DeliveryOrderProcessor
 
             document = data;
 
-            var responseMessage = $"Order for {data.FinalPrice} shipped to {data.FinalPrice}: \"{string.Join("; ", data.Items.Select(d => $"Product id: {d.ItemId}, count: {d.Count}"))}\" created successfully";
+            var responseMessage = $"Order for {data.FinalPrice} shipped to {data.ShippingAddress}: \"{string.Join("; ", data.Items.Select(d => $"Product id: {d.ItemId}, count: {d.Count}"))}\" created successfully";
             return new OkObjectResult(responseMessage);
         }
     }

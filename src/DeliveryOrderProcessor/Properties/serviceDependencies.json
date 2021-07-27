@@ -2,6 +2,10 @@
   "dependencies": {
     "appInsights1": {
       "type": "appInsights"
+    },
+    "cosmosdb1": {
+      "type": "cosmosdb",
+      "connectionId": "CosmosDBConnection"
     }
   }
 }
