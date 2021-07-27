@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Microsoft.eShopWeb.Infrastructure.Services
+namespace Microsoft.eShopWeb.Infrastructure.Services.FunctionOrderReserverClient
 {
     internal class OrderListDto
     {

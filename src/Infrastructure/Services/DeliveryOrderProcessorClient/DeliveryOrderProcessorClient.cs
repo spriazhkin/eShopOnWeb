@@ -4,14 +4,14 @@ using Microsoft.Extensions.Options;
 using RestSharp;
 using System.Threading.Tasks;
 
-namespace Microsoft.eShopWeb.Infrastructure.Services
+namespace Microsoft.eShopWeb.Infrastructure.Services.DeliveryOrderProcessorClient
 {
-    public class FunctionOrderReserver : IOrderReserver
+    public class DeliveryOrderProcessorClient : IOrderReserver
     {
-        private readonly FunctionOrderReserverConfiguration _configuration;
+        private readonly DeliveryOrderProcessorClientConfiguration _configuration;
         private readonly RestClient _restClient;
 
-        public FunctionOrderReserver(IOptions<FunctionOrderReserverConfiguration> configuration)
+        public DeliveryOrderProcessorClient(IOptions<DeliveryOrderProcessorClientConfiguration> configuration)
         {
             _configuration = configuration.Value;
             _restClient = new RestClient(_configuration.AzureFunctionUrl);
@@ -27,6 +27,8 @@ namespace Microsoft.eShopWeb.Infrastructure.Services
             {
                 orderDto.Items.Add(new OrderItemDto { ItemId = item.Id.ToString(), Count = item.Units });
             }
+            orderDto.FinalPrice = order.Total();
+            orderDto.ShippingAddress = order.ShipToAddress.ToString();
 
             request.AddJsonBody(orderDto);
             await _restClient.ExecuteAsync(request);
