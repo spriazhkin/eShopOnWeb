@@ -4,6 +4,7 @@ using Microsoft.eShopWeb.Infrastructure.Data;
 using Microsoft.eShopWeb.Infrastructure.Logging;
 using Microsoft.eShopWeb.Infrastructure.Services;
 using Microsoft.eShopWeb.Infrastructure.Services.DeliveryOrderProcessorClient;
+using Microsoft.eShopWeb.Infrastructure.Services.ServiceBusOrderSender;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,8 +22,8 @@ namespace Microsoft.eShopWeb.Web.Configuration
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
             services.AddTransient<IEmailSender, EmailSender>();
 
-            services.Configure<DeliveryOrderProcessorClientConfiguration>(configuration.GetSection(nameof(DeliveryOrderProcessorClientConfiguration)));
-            services.AddSingleton<IOrderReserver, DeliveryOrderProcessorClient>();
+            services.Configure<ServiceBusOrderSenderConfiguration>(configuration.GetSection(nameof(ServiceBusOrderSenderConfiguration)));
+            services.AddSingleton<IOrderReserver, ServiceBusOrderSender>();
 
             return services;
         }
