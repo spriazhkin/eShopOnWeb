@@ -23,7 +23,20 @@ namespace Microsoft.eShopWeb.Web.Configuration
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.Configure<ServiceBusOrderSenderConfiguration>(configuration.GetSection(nameof(ServiceBusOrderSenderConfiguration)));
-            services.AddSingleton<IOrderReserver, ServiceBusOrderSender>();
+            services.Configure<DeliveryOrderProcessorClientConfiguration>(configuration.GetSection(nameof(DeliveryOrderProcessorClientConfiguration)));
+            services.AddSingleton<ServiceBusOrderSender>();
+            services.AddSingleton<DeliveryOrderProcessorClient>();
+            services.AddSingleton<IOrderReserver>(provider =>
+            {
+                var serviceBusSender = provider.GetRequiredService<ServiceBusOrderSender>();
+                var deiveryClient = provider.GetRequiredService<DeliveryOrderProcessorClient>();
+
+                return new CompositeOrderReserver(new IOrderReserver[]
+                {
+                    serviceBusSender,
+                    deiveryClient
+                });
+            });
 
             return services;
         }

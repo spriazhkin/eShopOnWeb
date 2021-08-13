@@ -47,17 +47,17 @@ namespace Microsoft.eShopWeb.PublicApi
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                })
-                .ConfigureLogging((context, builder) =>
-                {
-                    builder.AddApplicationInsights(context.Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
-                    // Capture all log-level entries from Program
-                    builder.AddFilter<ApplicationInsightsLoggerProvider>(
-                        typeof(Program).FullName, LogLevel.Trace);
-
-                    // Capture all log-level entries from Startup
-                    builder.AddFilter<ApplicationInsightsLoggerProvider>(
-                        typeof(Startup).FullName, LogLevel.Trace);
                 });
+                //.ConfigureLogging((context, builder) =>
+                //{
+                //    //builder.AddApplicationInsights(context.Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
+                //    // Capture all log-level entries from Program
+                //    builder.AddFilter<ApplicationInsightsLoggerProvider>(
+                //        typeof(Program).FullName, LogLevel.Trace);
+
+                //    // Capture all log-level entries from Startup
+                //    builder.AddFilter<ApplicationInsightsLoggerProvider>(
+                //        typeof(Startup).FullName, LogLevel.Trace);
+                //});
     }
 }
